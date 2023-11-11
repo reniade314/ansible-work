@@ -8,7 +8,7 @@
       path: /home/centos/new_dir
       state: directory
 
- - name: Create Directory
+  - name: Create Directory
     file:
       path: /home/centos/new_dir_1
       state: directory     
