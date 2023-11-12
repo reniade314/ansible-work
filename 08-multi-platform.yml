@@ -52,6 +52,10 @@
         state: present
       when: "'CentOS' in ansible_distribution"
 
+    - name: Update package lists (Debian)
+      command: apt-get update
+      when: "'Debian' in ansible_distribution"
+
     - name: Install Apache HTTP Server on Debian
       yum:
         name: apache2
@@ -67,7 +71,6 @@
         - httpd  # CentOS
         - apache2  # Debian
       when: "'CentOS' in ansible_distribution or 'Debian' in ansible_distribution"
-
 
 ...  
 
