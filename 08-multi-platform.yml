@@ -53,7 +53,7 @@
       when: "'CentOS' in ansible_distribution"
 
     - name: Install Apache HTTP Server on Debian
-      package:
+      apt:
         name: apache2
         state: present
       when: "'Debian' in ansible_distribution"
