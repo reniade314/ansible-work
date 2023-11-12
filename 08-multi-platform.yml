@@ -40,5 +40,34 @@
       enabled: yes
     when: ansible_distribution == "Ubuntu"
 
+
+  tasks:
+    - name: Check the OS distribution
+      debug:
+        var: ansible_distribution
+
+    - name: Install Apache HTTP Server on CentOS
+      package:
+        name: httpd
+        state: present
+      when: "'CentOS' in ansible_distribution"
+
+    - name: Install Apache HTTP Server on Debian
+      package:
+        name: apache2
+        state: present
+      when: "'Debian' in ansible_distribution"
+
+    - name: Start and enable Apache service
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      loop:
+        - httpd  # CentOS
+        - apache2  # Debian
+      when: "'CentOS' in ansible_distribution or 'Debian' in ansible_distribution"
+
+
 ...  
 
