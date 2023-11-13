@@ -46,7 +46,7 @@
       debug:
         var: ansible_distribution
 
-   - name: Update package lists (Debian)
+    - name: Update package lists (Debian)
      command: apt-get update
      when: "'Debian' in ansible_distribution"       
 
