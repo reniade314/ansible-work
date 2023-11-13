@@ -1,0 +1,10 @@
+---
+- name: Deploy Web App
+  hosts: g4
+  become: yes
+
+  roles:
+  - apache
+  -html
+     
+...
