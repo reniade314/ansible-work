@@ -46,15 +46,15 @@
       debug:
         var: ansible_distribution
 
-    - name: Install Apache HTTP Server on CentOS
-      package:
-        name: httpd
-        state: present
-      when: "'CentOS' in ansible_distribution"
+   - name: Update package lists (Debian)
+     command: apt-get update
+     when: "'Debian' in ansible_distribution"       
 
-    - name: Update package lists (Debian)
-      command: apt-get update
-      when: "'Debian' in ansible_distribution"
+    - name: Install Apache HTTP Server on CentOS and Debian
+      package:
+        name: "{{ 'httpd' if 'CentOS' in ansible_distribution else 'apache2' }}"
+        state: present
+      when: "'CentOS' in ansible_distribution or 'Debian' in ansible_distribution"
 
     - name: Install Apache HTTP Server on Debian
       yum:
@@ -71,7 +71,6 @@
         - httpd  # CentOS
         - apache2  # Debian
       when: "'CentOS' in ansible_distribution or 'Debian' in ansible_distribution"
-
 
 ...  
 
