@@ -47,8 +47,8 @@
         var: ansible_distribution
 
     - name: Update package lists (Debian)
-     command: apt-get update
-     when: "'Debian' in ansible_distribution"       
+      command: apt-get update
+      when: "'Debian' in ansible_distribution"       
 
     - name: Install Apache HTTP Server on CentOS and Debian
       package:
