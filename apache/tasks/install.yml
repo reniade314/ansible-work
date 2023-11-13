@@ -1,0 +1,53 @@
+---
+
+    - name: Check the OS distribution
+      debug:
+        var: ansible_distribution
+
+    - name: Install Apache HTTP Server on CentOS (Amazon Linux)
+      dnf:
+        name: httpd
+        state: present
+      when: ansible_distribution == "Amazon"
+
+    - name: Start and enable Apache HTTP Server on CentOS (Amazon Linux)
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+      when: ansible_distribution == "Amazon"
+
+    - name: Install Apache HTTP Server on Debian (Ubuntu)
+      apt:
+        name: apache2
+        state: present
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Start and enable Apache HTTP Server on Debian (Ubuntu)
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Update package lists (Debian)
+      command: apt-get update
+      when: "'Debian' in ansible_distribution"
+
+    - name: Install Apache HTTP Server on CentOS and Debian
+      package:
+        name: "{{ 'httpd' if 'CentOS' in ansible_distribution else 'apache2' }}"
+        state: present
+      when: "'CentOS' in ansible_distribution or 'Debian' in ansible_distribution"
+
+    - name: Start and enable Apache service
+      service:
+        name: "{{ 'httpd' if 'CentOS' in ansible_distribution else 'apache2' }}"
+        state: started
+        enabled: yes
+      loop:
+        - httpd  # CentOS (Amazon Linux)
+        - apache2  # Debian (Ubuntu)
+      when: "'CentOS' in ansible_distribution or 'Debian' in ansible_distribution"
+
+...
